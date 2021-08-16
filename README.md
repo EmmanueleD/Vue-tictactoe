@@ -1,24 +1,19 @@
-# tictactoe
+# Tic tac toe - with Vue.js
+This is a simple web app to play the popular game [Tic tac toe](https://en.wikipedia.org/wiki/Tic-tac-toe)
 
-## Project setup
-```
-npm install
-```
+It was made as a project for the Vue.js curriculum at [start2impact](https://www.start2impact.it/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+You can play the game here:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+🎲 [Play here](https://vue-tictactoe-byemmanuele.netlify.app/#/) 🎲
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Preview
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![screenshot of the game](./src/assets/screenshot.png)
+
+## Contact
+You can find me here:
+
+IG: [@emmanuele.online](https://www.instagram.com/emmanuele.online/)
+
+Personal Page: [www.emmanuele.xyz](htpps://www.emmanuele.xyz)
