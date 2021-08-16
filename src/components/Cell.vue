@@ -24,7 +24,6 @@ export default {
       if(!this.gameFinished){
         this.$el.classList.add(this.player);
         this.assignValue();
-        this.$emit('updateCounter')
       }
     },
     assignValue(){

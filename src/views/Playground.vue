@@ -10,49 +10,40 @@
       -->
       <div class="game-area">
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[0].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[1, 3]">
         </cell>
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[1].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[2, 3]">
         </cell>
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[2].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[3, 3]">
         </cell>
 
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[3].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[1, 2]">
         </cell>
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[4].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[2, 2]">
         </cell>
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[5].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[3, 2]">
         </cell>
 
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[6].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[1, 1]">
         </cell>
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[7].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[2, 1]">
         </cell>
         <cell @updateValue="updateValue" @changePlayer="togglePlayer"
-        @updateCounter="updateCounter()"
         :winner="this.cells[8].winner" 
         :gameFinished="gameFinished" :player="currentPlayer" :coords="[3, 1]">
         </cell>
@@ -71,7 +62,6 @@ export default {
       gameFinished: false,
       showWinner: false,
       currentPlayer: 'X',
-      counter: 0,
       cells:[
         {coords: [1, 3], value: "", winner: false},
         {coords: [2, 3], value: "", winner: false},
@@ -100,20 +90,8 @@ export default {
       this.isGameStarted = true;
       this.gameFinished = false;
       this.showWinner = false;
-      this.counter = 0;
       for(let cell of this.cells){
         cell.winner=false
-      }
-    },
-    //check for draw
-    updateCounter: function(){
-      if(this.counter < 9){
-        this.counter += 1;
-      } else {
-        for(let cell of this.cells){
-          cell.winner=true
-        }
-        this.endGame("no1! It's a draw!")
       }
     },
     //Reset game
@@ -149,6 +127,7 @@ export default {
           this.highlightWinner([2, i]);
           this.highlightWinner([3, i]);
           this.endGame(checkValue(1, i));
+          return
         }
       }
       //vertical check
@@ -160,25 +139,39 @@ export default {
           this.highlightWinner([i, 2]);
           this.highlightWinner([i, 3]);
           this.endGame(checkValue(i, 1));
+          return
         }
       }
       //diagonals check
-        if(checkValue(1, 1) != "" 
-        && checkValue(1, 1) == checkValue(2, 2) 
-        && checkValue(1, 1) == checkValue(3, 3)){
-          this.highlightWinner([1, 1]);
-          this.highlightWinner([2, 2]);
-          this.highlightWinner([3, 3]);
-          this.endGame(checkValue(1, 1));
-        } 
-        else if(checkValue(3, 1) != "" 
+      if(checkValue(1, 1) != "" 
+      && checkValue(1, 1) == checkValue(2, 2) 
+      && checkValue(1, 1) == checkValue(3, 3)){
+        this.highlightWinner([1, 1]);
+        this.highlightWinner([2, 2]);
+        this.highlightWinner([3, 3]);
+        this.endGame(checkValue(1, 1));
+        return
+      } else if(checkValue(3, 1) != "" 
         && checkValue(3, 1) == checkValue(2, 2) 
         && checkValue(3, 1) == checkValue(1, 3)){
           this.highlightWinner([3, 1]);
           this.highlightWinner([2, 2]);
           this.highlightWinner([1, 3]);
           this.endGame(checkValue(3, 1));
-        }  
+          return
+      } 
+      
+      let arrayOfValues = this.cells.map(function(cell){
+        return cell.value
+      });
+
+      if(arrayOfValues.indexOf("")==-1){
+        for(let cell of this.cells){
+          cell.winner = true;
+        }          
+        this.endGame("No 1! It's a draw!")
+        return
+      }
     },
     //Check value of given cell
     checkValue: function(x, y){
